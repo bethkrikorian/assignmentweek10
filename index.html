@@ -1,97 +1,98 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 <head>
-	<title>Assignment Week 10</title>
-	<meta charset="utf-8"/>
-	<style>
+<title>Country API</title>
+<meta charset="utf-8"/>
+<style>
+		body {
+			background-color: #e3d8d8;
+		}
 		h1 {
 			text-align: center;
-			font-family: sans-serif;
+			font-style: Courier;
 			font-size: 40px;
 			font-style: italic;
 		}
 		p {
 			text-align: center;
-			font-family: sans-serif;
+			font-style: Courier;
 			font-size: 25px;
 		}
 		div {
 			text-align: center;
-			font-family: sans-serif;
+			font-style: Courier;
 			font-size: 25px;
 		}
-	</style>
-	<script>
-	function randomNames() {
-		/* Step 1: Make instance of request object...
-		...to make HTTP request after page is loaded*/
-		request = new XMLHttpRequest();
-		console.log("1 - request object created");
-		 
-		// Step 2: Set the URL for the AJAX request to be the JSON file
-		 
-		request.open("GET", "https://uinames.com/api/?gender=female", true);
+		a:link {
+			color: #0000ff;
+		}
+		a:visited {
+			color: #0000ff;
+		}
+		a:hover {
+			color: #000;
+		}
+</style>
+<script>
+function getCountry() {
 
-		console.log("2 - opened request file");
-		 
-		// Step 3: set up event handler/callback
+	request = new XMLHttpRequest();
+	console.log("1 - request object created");
+	 
+	request.open("GET", "https://api.ip2country.info/ip?5.6.7.8", true);
 
-		request.onreadystatechange = function() {
-		console.log("3 - readystatechange event fired.");
-		 
-		if (request.readyState == 4 && request.status == 200) {
+	console.log("2 - opened request file");
 
-		// Step 5: wait for done + success
-
+	request.onreadystatechange = function() {
+	console.log("3 - readystatechange event fired.");
+	 
+	if (request.readyState == 4 && request.status == 200) {
 		result = request.responseText;
-		//alert(result);
-		name = JSON.parse(result);
+		//alert(result)
+		country = JSON.parse(result);
 
-		document.getElementById("data").innerHTML ="random name generated: " + name["main"]["words"];
-
-		}
-		else if (request.readyState == 4 && request.status != 200) {
-
-		document.getElementById("data").innerHTML = "Something is wrong!  Check the logs to see where this went off the rails";
-
-		}
-
-		else if (request.readyState == 3) {
-
-		document.getElementById("data").innerHTML = "Too soon!  Try again";
-
-		}
-
-		}
-		// Step 4: fire off the HTTP request
-		request.send();
-		console.log("4 - Request sent");
+		document.getElementById("data").innerHTML ="<b>Country is: </b>" + country["countryName"] + " " + country["countryEmoji"] + "<br>" + "<b>Alpha-2 country code is: </b>" + country["countryCode"] + "<br>" + "<b>Alpha-3 country code is: </b>" + country["countryCode3"];
 	}
-	</script>
+
+	else if (request.readyState == 4 && request.status != 200) {
+		document.getElementById("data").innerHTML = "Something is wrong!  Check the logs to see where this went off the rails";
+	}
+
+	else if (request.readyState == 3) {
+		document.getElementById("data").innerHTML = "Too soon!  Try again";
+	}
+
+	}
+	// fire off the HTTP request
+	request.send();
+	console.log("4 - Request sent");
+}
+</script>
 </head>
-<body onload="randomNames()">
-	<h1>RANDOM NAME GENERATOR</h1>
+
+<body onload="getCountry()">
+<h1>COUNTRY API</h1>
 	<br><br>
 	<div id="data">Loading...</div>
-	<br>
+	<br><br>
 	<p>
-		The API I selected is <b>UI Names</b>. It generates random female names.
+		<b>The API I selected is</b> IP 2 Country.<br><b>It generates the IP to a country </b>- in this case it is Germany.
 	</p>
 	<br>
 	<p>
-		I found it on this website: <b>https://github.com/thm/uinames</b>
+		<b>I found it on this website:</b> <a href="https://ip2country.info/">https://ip2country.info/</a>
 	</p>
 	<br>
 	<p>
-		The options I used for the API request were <b>(blank)</b>
+		<b>The options I used for the API request are</b> the country name, code, and emoji of the country's flag. 
 	</p>
 	<br>
 	<p>
-		Applications where this API would be helpful: 
+		<b>Applications where this API would be helpful: </b>
+		<br><br>
+		1. Providing the country's code 
 		<br>
-		<b>1. Expecting parents who are brainstorming names for their child
-		<br>
-		2. Writers of all kinds - authors, playwriters, screenwriters, etc. </b>
+		2. Showing the country's flag
 	</p>
 </body>
 </html>
