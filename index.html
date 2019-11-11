@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Assignment Week 10</title>
+	<meta charset="utf-8"/>
+	<style>
+		h1 {
+			text-align: center;
+			font-family: sans-serif;
+			font-size: 40px;
+			font-style: italic;
+		}
+		p {
+			text-align: center;
+			font-family: sans-serif;
+			font-size: 25px;
+		}
+		div {
+			text-align: center;
+			font-family: sans-serif;
+			font-size: 25px;
+		}
+	</style>
+	<script>
+	function randomNames() {
+		/* Step 1: Make instance of request object...
+		...to make HTTP request after page is loaded*/
+		request = new XMLHttpRequest();
+		console.log("1 - request object created");
+		 
+		// Step 2: Set the URL for the AJAX request to be the JSON file
+		 
+		request.open("GET", "https://uinames.com/api/?gender=female", true);
+
+		console.log("2 - opened request file");
+		 
+		// Step 3: set up event handler/callback
+
+		request.onreadystatechange = function() {
+		console.log("3 - readystatechange event fired.");
+		 
+		if (request.readyState == 4 && request.status == 200) {
+
+		// Step 5: wait for done + success
+
+		result = request.responseText;
+		//alert(result);
+		name = JSON.parse(result);
+
+		document.getElementById("data").innerHTML ="random name generated: " + name["main"]["words"];
+
+		}
+		else if (request.readyState == 4 && request.status != 200) {
+
+		document.getElementById("data").innerHTML = "Something is wrong!  Check the logs to see where this went off the rails";
+
+		}
+
+		else if (request.readyState == 3) {
+
+		document.getElementById("data").innerHTML = "Too soon!  Try again";
+
+		}
+
+		}
+		// Step 4: fire off the HTTP request
+		request.send();
+		console.log("4 - Request sent");
+	}
+	</script>
+</head>
+<body onload="randomNames()">
+	<h1>RANDOM NAME GENERATOR</h1>
+	<br><br>
+	<div id="data">Loading...</div>
+	<br>
+	<p>
+		The API I selected is <b>UI Names</b>. It generates random female names.
+	</p>
+	<br>
+	<p>
+		I found it on this website: <b>https://github.com/thm/uinames</b>
+	</p>
+	<br>
+	<p>
+		The options I used for the API request were <b>(blank)</b>
+	</p>
+	<br>
+	<p>
+		Applications where this API would be helpful: 
+		<br>
+		<b>1. Expecting parents who are brainstorming names for their child
+		<br>
+		2. Writers of all kinds - authors, playwriters, screenwriters, etc. </b>
+	</p>
+</body>
+</html>
